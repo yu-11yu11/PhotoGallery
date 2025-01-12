@@ -5,23 +5,254 @@
 <title>Photo Gallery - Kiavand and Draco Design and Construction</title>
 <base href="/">
 <style>
-    body { font-family: Arial, sans-serif; display: flex; }
-    .nav { width: 200px; padding: 20px; background-color: #f4f4f4; height: 100vh; position: fixed; overflow-y: auto; }
-    .nav a { display: block; margin: 10px 0; text-decoration: none; color: #000; font-weight: bold; }
-    .content { margin-left: 220px; padding: 20px; }
-    .header { text-align: center; }
-    .header h1 { margin: 10px 0; }
-    .header h2 { margin: 5px 0; color: #555; }
-    .header h3 { margin: 5px 0; color: #777; }
-    .folder { margin: 20px; }
-    .folder img { margin: 5px; width: 150px; height: 150px; cursor: pointer; }
-    .back-to-top { margin: 20px; text-align: center; }
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        margin: 0;
+    }
+
+    .nav {
+        width: 220px;
+        padding: 20px;
+        background-color: #343a40;
+        color: white;
+        height: 100vh;
+        position: fixed;
+        overflow-y: auto;
+    }
+
+    .nav a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav a:hover {
+        background-color: #495057;
+    }
+
+    .content {
+        margin-left: 240px;
+        padding: 20px;
+        flex: 1;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .folder {
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    .folder img {
+        margin: 10px;
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .folder img:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .viewer img {
+        max-width: 90%;
+        max-height: 80vh;
+        margin: 20px auto;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .viewer {
+        display: none;
+    }
+
+    .viewer h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #343a40;
+    }
+
+    .viewer button {
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #343a40;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .viewer button:hover {
+        background-color: #495057;
+    }
 </style>
+<script>
+    let currentFolder = '';
+    let currentImageIndex = 0;
+    let currentImages = [];
+
+    function showSection(id) {
+        // Hide all folders
+        const folders = document.querySelectorAll('.folder');
+        folders.forEach(folder => folder.style.display = 'none');
+
+        // Hide image viewer
+        const viewer = document.querySelector('.viewer');
+        viewer.style.display = 'none';
+
+        // Show the selected folder
+        const selectedFolder = document.getElementById(id);
+        if (selectedFolder) {
+            selectedFolder.style.display = 'block';
+            currentFolder = id;
+
+            // Gather images in the folder
+            currentImages = Array.from(selectedFolder.querySelectorAll('img')).map(img => img.src);
+        }
+    }
+
+    function viewImage(index) {
+        currentImageIndex = index;
+
+        // Display image in viewer
+        const viewer = document.querySelector('.viewer');
+        viewer.style.display = 'block';
+        const imageElement = viewer.querySelector('img');
+        imageElement.src = currentImages[currentImageIndex];
+        const titleElement = viewer.querySelector('h2');
+        titleElement.textContent = `${currentFolder} - Image ${currentImageIndex + 1} of ${currentImages.length}`;
+    }
+
+    function navigateImage(direction) {
+        if (direction === 'prev') {
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+        } else if (direction === 'next') {
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+        }
+
+        // Update viewer
+        viewImage(currentImageIndex);
+    }
+</script>
 </head>
 <body>
 <div class="nav">
-    <h2></h2><a href='#Boy room'>Boy room</a><a href='#Entery'>Entery</a><a href='#Girl room'>Girl room</a><a href='#Guest room'>Guest room</a><a href='#Kitchen'>Kitchen</a><a href='#Living room'>Living room</a><a href='#Master room'>Master room</a><a href='#Pv TV room'>Pv TV room</a><a href='#Stair'>Stair</a><a href='#Top floor living room'>Top floor living room</a></div><div class='content'><div class='header'>
-    <h1>Kiavand and Draco Design and Construction</h1>
-    <h2>Project: Aftab</h2>
-    <h3>Dublex Unit - Floors 5 & 6</h3>
-</div><div class='folder' id='Boy room'><h2>Boy room</h2><a href='Boy room\1.png' target='_blank'><img src='Boy room\1.png' alt='1.png'></a><a href='Boy room\2.png' target='_blank'><img src='Boy room\2.png' alt='2.png'></a><a href='Boy room\3.png' target='_blank'><img src='Boy room\3.png' alt='3.png'></a><a href='Boy room\4.png' target='_blank'><img src='Boy room\4.png' alt='4.png'></a><a href='Boy room\5.png' target='_blank'><img src='Boy room\5.png' alt='5.png'></a><a href='Boy room\6.png' target='_blank'><img src='Boy room\6.png' alt='6.png'></a><a href='Boy room\7.png' target='_blank'><img src='Boy room\7.png' alt='7.png'></a><a href='Boy room\8.png' target='_blank'><img src='Boy room\8.png' alt='8.png'></a><a href='Boy room\9.png' target='_blank'><img src='Boy room\9.png' alt='9.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Entery'><h2>Entery</h2><a href='Entery\1.png' target='_blank'><img src='Entery\1.png' alt='1.png'></a><a href='Entery\2.png' target='_blank'><img src='Entery\2.png' alt='2.png'></a><a href='Entery\3.png' target='_blank'><img src='Entery\3.png' alt='3.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Girl room'><h2>Girl room</h2><a href='Girl room\2.png' target='_blank'><img src='Girl room\2.png' alt='2.png'></a><a href='Girl room\3.png' target='_blank'><img src='Girl room\3.png' alt='3.png'></a><a href='Girl room\4.png' target='_blank'><img src='Girl room\4.png' alt='4.png'></a><a href='Girl room\5.png' target='_blank'><img src='Girl room\5.png' alt='5.png'></a><a href='Girl room\6.png' target='_blank'><img src='Girl room\6.png' alt='6.png'></a><a href='Girl room\7.png' target='_blank'><img src='Girl room\7.png' alt='7.png'></a><a href='Girl room\8.png' target='_blank'><img src='Girl room\8.png' alt='8.png'></a><a href='Girl room\9.png' target='_blank'><img src='Girl room\9.png' alt='9.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Guest room'><h2>Guest room</h2><a href='Guest room\1.png' target='_blank'><img src='Guest room\1.png' alt='1.png'></a><a href='Guest room\2.png' target='_blank'><img src='Guest room\2.png' alt='2.png'></a><a href='Guest room\3.png' target='_blank'><img src='Guest room\3.png' alt='3.png'></a><a href='Guest room\4.png' target='_blank'><img src='Guest room\4.png' alt='4.png'></a><a href='Guest room\5.png' target='_blank'><img src='Guest room\5.png' alt='5.png'></a><a href='Guest room\6.png' target='_blank'><img src='Guest room\6.png' alt='6.png'></a><a href='Guest room\7.png' target='_blank'><img src='Guest room\7.png' alt='7.png'></a><a href='Guest room\8.png' target='_blank'><img src='Guest room\8.png' alt='8.png'></a><a href='Guest room\9.png' target='_blank'><img src='Guest room\9.png' alt='9.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Kitchen'><h2>Kitchen</h2><a href='Kitchen\1.png' target='_blank'><img src='Kitchen\1.png' alt='1.png'></a><a href='Kitchen\10.png' target='_blank'><img src='Kitchen\10.png' alt='10.png'></a><a href='Kitchen\2.png' target='_blank'><img src='Kitchen\2.png' alt='2.png'></a><a href='Kitchen\3.png' target='_blank'><img src='Kitchen\3.png' alt='3.png'></a><a href='Kitchen\4.png' target='_blank'><img src='Kitchen\4.png' alt='4.png'></a><a href='Kitchen\5.png' target='_blank'><img src='Kitchen\5.png' alt='5.png'></a><a href='Kitchen\6.png' target='_blank'><img src='Kitchen\6.png' alt='6.png'></a><a href='Kitchen\7.png' target='_blank'><img src='Kitchen\7.png' alt='7.png'></a><a href='Kitchen\8.png' target='_blank'><img src='Kitchen\8.png' alt='8.png'></a><a href='Kitchen\9.png' target='_blank'><img src='Kitchen\9.png' alt='9.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Living room'><h2>Living room</h2><a href='Living room\1.png' target='_blank'><img src='Living room\1.png' alt='1.png'></a><a href='Living room\10.png' target='_blank'><img src='Living room\10.png' alt='10.png'></a><a href='Living room\11.png' target='_blank'><img src='Living room\11.png' alt='11.png'></a><a href='Living room\12.png' target='_blank'><img src='Living room\12.png' alt='12.png'></a><a href='Living room\13.png' target='_blank'><img src='Living room\13.png' alt='13.png'></a><a href='Living room\14.png' target='_blank'><img src='Living room\14.png' alt='14.png'></a><a href='Living room\15.png' target='_blank'><img src='Living room\15.png' alt='15.png'></a><a href='Living room\2.png' target='_blank'><img src='Living room\2.png' alt='2.png'></a><a href='Living room\3.png' target='_blank'><img src='Living room\3.png' alt='3.png'></a><a href='Living room\4.png' target='_blank'><img src='Living room\4.png' alt='4.png'></a><a href='Living room\5.png' target='_blank'><img src='Living room\5.png' alt='5.png'></a><a href='Living room\6.png' target='_blank'><img src='Living room\6.png' alt='6.png'></a><a href='Living room\7.png' target='_blank'><img src='Living room\7.png' alt='7.png'></a><a href='Living room\8.png' target='_blank'><img src='Living room\8.png' alt='8.png'></a><a href='Living room\9.png' target='_blank'><img src='Living room\9.png' alt='9.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Master room'><h2>Master room</h2><a href='Master room\1.png' target='_blank'><img src='Master room\1.png' alt='1.png'></a><a href='Master room\10.png' target='_blank'><img src='Master room\10.png' alt='10.png'></a><a href='Master room\11.png' target='_blank'><img src='Master room\11.png' alt='11.png'></a><a href='Master room\12.png' target='_blank'><img src='Master room\12.png' alt='12.png'></a><a href='Master room\13.png' target='_blank'><img src='Master room\13.png' alt='13.png'></a><a href='Master room\14.png' target='_blank'><img src='Master room\14.png' alt='14.png'></a><a href='Master room\15.png' target='_blank'><img src='Master room\15.png' alt='15.png'></a><a href='Master room\16.png' target='_blank'><img src='Master room\16.png' alt='16.png'></a><a href='Master room\2.png' target='_blank'><img src='Master room\2.png' alt='2.png'></a><a href='Master room\3.png' target='_blank'><img src='Master room\3.png' alt='3.png'></a><a href='Master room\4.png' target='_blank'><img src='Master room\4.png' alt='4.png'></a><a href='Master room\5.png' target='_blank'><img src='Master room\5.png' alt='5.png'></a><a href='Master room\6.png' target='_blank'><img src='Master room\6.png' alt='6.png'></a><a href='Master room\7.png' target='_blank'><img src='Master room\7.png' alt='7.png'></a><a href='Master room\8.png' target='_blank'><img src='Master room\8.png' alt='8.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Pv TV room'><h2>Pv TV room</h2><a href='Pv TV room\1.png' target='_blank'><img src='Pv TV room\1.png' alt='1.png'></a><a href='Pv TV room\2.png' target='_blank'><img src='Pv TV room\2.png' alt='2.png'></a><a href='Pv TV room\3.png' target='_blank'><img src='Pv TV room\3.png' alt='3.png'></a><a href='Pv TV room\4.png' target='_blank'><img src='Pv TV room\4.png' alt='4.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Stair'><h2>Stair</h2><a href='Stair\1.png' target='_blank'><img src='Stair\1.png' alt='1.png'></a><a href='Stair\2.png' target='_blank'><img src='Stair\2.png' alt='2.png'></a><a href='Stair\3.png' target='_blank'><img src='Stair\3.png' alt='3.png'></a><a href='Stair\4.png' target='_blank'><img src='Stair\4.png' alt='4.png'></a><a href='Stair\5.png' target='_blank'><img src='Stair\5.png' alt='5.png'></a><a href='Stair\6.png' target='_blank'><img src='Stair\6.png' alt='6.png'></a><a href='Stair\7.png' target='_blank'><img src='Stair\7.png' alt='7.png'></a><a href='Stair\8.png' target='_blank'><img src='Stair\8.png' alt='8.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div><div class='folder' id='Top floor living room'><h2>Top floor living room</h2><a href='Top floor living room\1.png' target='_blank'><img src='Top floor living room\1.png' alt='1.png'></a><a href='Top floor living room\2.png' target='_blank'><img src='Top floor living room\2.png' alt='2.png'></a><a href='Top floor living room\3.png' target='_blank'><img src='Top floor living room\3.png' alt='3.png'></a><a href='Top floor living room\4.png' target='_blank'><img src='Top floor living room\4.png' alt='4.png'></a><a href='Top floor living room\5.png' target='_blank'><img src='Top floor living room\5.png' alt='5.png'></a><a href='Top floor living room\6.png' target='_blank'><img src='Top floor living room\6.png' alt='6.png'></a><a href='Top floor living room\7.png' target='_blank'><img src='Top floor living room\7.png' alt='7.png'></a><div class='back-to-top'><a href='#top'>Back to Top</a></div></div></div></body></html>
+    <h2>Gallery Categories</h2>
+    <a onclick="showSection('Boy room')">Boy Room</a>
+    <a onclick="showSection('Entery')">Entery</a>
+    <a onclick="showSection('Girl room')">Girl Room</a>
+    <a onclick="showSection('Guest room')">Guest Room</a>
+    <a onclick="showSection('Kitchen')">Kitchen</a>
+    <a onclick="showSection('Living room')">Living Room</a>
+    <a onclick="showSection('Master room')">Master Room</a>
+    <a onclick="showSection('Pv TV room')">PV TV Room</a>
+    <a onclick="showSection('Stair')">Stair</a>
+    <a onclick="showSection('Top floor living room')">Top Floor Living Room</a>
+</div>
+<div class="content">
+    <div class="header">
+        <h1>Kiavand and Draco Design and Construction</h1>
+        <h2>Project: Aftab</h2>
+        <h3>Duplex Unit - Floors 5 & 6</h3>
+    </div>
+
+    <!-- Viewer -->
+    <div class="viewer">
+        <h2></h2>
+        <img src="" alt="Selected Image">
+        <div>
+            <button onclick="navigateImage('prev')">Previous</button>
+            <button onclick="navigateImage('next')">Next</button>
+        </div>
+    </div>
+
+    <!-- Boy Room -->
+    <div class="folder" id="Boy room">
+        <h2>Boy Room</h2>
+        <img src="Boy room/1.png" alt="Boy Room 1" onclick="viewImage(0)">
+        <img src="Boy room/2.png" alt="Boy Room 2" onclick="viewImage(1)">
+        <img src="Boy room/3.png" alt="Boy Room 3" onclick="viewImage(2)">
+    </div>
+
+    <!-- Entery -->
+    <div class="folder" id="Entery">
+        <h2>Entery</h2>
+        <img src="Entery/1.png" alt="Entery 1" onclick="viewImage(0)">
+        <img src="Entery/2.png" alt="Entery 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Girl Room -->
+    <div class="folder" id="Girl room">
+        <h2>Girl Room</h2>
+        <img src="Girl room/2.png" alt="Girl Room 2" onclick="viewImage(0)">
+        <img src="Girl room/3.png" alt="Girl Room 3" onclick="viewImage(1)">
+    </div>
+
+    <!-- Guest Room -->
+    <div class="folder" id="Guest room">
+        <h2>Guest Room</h2>
+        <img src="Guest room/1.png" alt="Guest Room 1" onclick="viewImage(0)">
+        <img src="Guest room/2.png" alt="Guest Room 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Kitchen -->
+    <div class="folder" id="Kitchen">
+        <h2>Kitchen</h2>
+        <img src="Kitchen/1.png" alt="Kitchen 1" onclick="viewImage(0)">
+        <img src="Kitchen/2.png" alt="Kitchen 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Living Room -->
+    <div class="folder" id="Living room">
+        <h2>Living Room</h2>
+        <img src="Living room/1.png" alt="Living Room 1" onclick="viewImage(0)">
+        <img src="Living room/2.png" alt="Living Room 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Master Room -->
+    <div class="folder" id="Master room">
+        <h2>Master Room</h2>
+        <img src="Master room/1.png" alt="Master Room 1" onclick="viewImage(0)">
+        <img src="Master room/2.png" alt="Master Room 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- PV TV Room -->
+    <div class="folder" id="Pv TV room">
+        <h2>PV TV Room</h2>
+        <img src="Pv TV room/1.png" alt="PV TV Room 1" onclick="viewImage(0)">
+        <img src="Pv TV room/2.png" alt="PV TV Room 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Stair -->
+    <div class="folder" id="Stair">
+        <h2>Stair</h2>
+        <img src="Stair/1.png" alt="Stair 1" onclick="viewImage(0)">
+        <img src="Stair/2.png" alt="Stair 2" onclick="viewImage(1)">
+    </div>
+
+    <!-- Top Floor Living Room -->
+    <div class="folder" id="Top floor living room">
+        <h2>Top Floor Living Room</h2>
+        <img src="Top floor living room/1.png" alt="Top Floor Living Room 1" onclick="viewImage(0)">
+        <img src="Top floor living room/2.png" alt="Top Floor Living Room 2" onclick="viewImage(1)">
+    </div>
+</div>
+</body>
+</html>
